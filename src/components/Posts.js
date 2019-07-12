@@ -43,11 +43,11 @@ class Posts extends Component {
     axios
       .patch(`${this.state.apiRoot}/posts/${id}`, { title, body })
       .then(res => {
-        if (res.statusText !== "OK") return;
+        if (res.status !== 200) return;
 
         const postIndex = this.state.posts.findIndex(p => p.id === id);
         let refreshedPosts = this.state.posts;
-        refreshedPosts[postIndex] = { id, title, body };
+        refreshedPosts[postIndex] = res.data;
         this.setState({ posts: refreshedPosts, showPostEditor: false });
         this.notify("Updated the post!");
       })

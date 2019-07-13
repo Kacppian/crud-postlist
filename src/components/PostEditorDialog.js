@@ -43,7 +43,7 @@ class PostEditorDialog extends Component {
         open: newProps.open
       }
     }
-    return null;
+    return {open: false};
   }
 
   changeHandler(name) {

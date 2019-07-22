@@ -68,7 +68,7 @@ class Posts extends Component {
     axios
       .delete(`${this.state.apiRoot}/posts/${postId}`)
       .then(res => {
-        if (res.statusText !== "OK") return;
+        if (res.status !== 200) return;
 
         const postIndex = this.state.posts.findIndex(p => p.id === postId);
         let refreshedPosts = this.state.posts;

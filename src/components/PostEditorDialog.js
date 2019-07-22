@@ -31,20 +31,12 @@ class PostEditorDialog extends Component {
     this.changeHandler = this.changeHandler.bind(this);
   }
 
-  static getDerivedStateFromProps(newProps, prevState) {
-    // Need to update the state with the props the first time so
-    // that the title/Body are loaded
-    // There's probably a better way of doing this.
-    // TODO: See how it can be made better
-    if (!prevState.open && newProps.open) {
-      console.log(prevState, newProps)
-      return {
-        ...newProps.selectedPost,
-        open: newProps.open
-      }
-    }
-    return {open: false};
-  }
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      open: newProps.open,
+      ...newProps.selectedPost
+    });
+  };
 
   changeHandler(name) {
     return e => {

@@ -59,14 +59,6 @@ class Posts extends Component {
       });
   }
 
-  handlePostEditorOpen(postId) {
-    const selectedPost = this.state.posts.find(p => p.id === postId);
-    this.setState({
-      showPostEditor: true,
-      selectedPost: { title: selectedPost.title, body: selectedPost.body, id: selectedPost.id }
-    });
-  }
-
   handlePostDelete(postId) {
     axios
       .delete(`${constants.POSTS_API}/posts/${postId}`)
@@ -86,8 +78,12 @@ class Posts extends Component {
       });
   }
 
-  componentWillMount() {
-    this.getPosts();
+  handlePostEditorOpen(postId) {
+    const selectedPost = this.state.posts.find(p => p.id === postId);
+    this.setState({
+      showPostEditor: true,
+      selectedPost: { title: selectedPost.title, body: selectedPost.body, id: selectedPost.id }
+    });
   }
 
   handlePostEditorClose() {
@@ -95,6 +91,10 @@ class Posts extends Component {
       showPostEditor: false,
       selectedPost: {}
     });
+  }
+
+  componentWillMount() {
+    this.getPosts();
   }
 
   render() {

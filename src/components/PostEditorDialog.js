@@ -3,12 +3,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
+import PropTypes from 'prop-types';
 
 const styles = theme => ({
   container: {
@@ -16,9 +16,6 @@ const styles = theme => ({
     flexWrap: "wrap"
   },
   textField: {},
-  dense: {
-    marginTop: 16
-  },
   formControl: {
     margin: '10px 0px'
   }
@@ -50,65 +47,69 @@ class PostEditorDialog extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
-        <Dialog open={this.props.open} onClose={this.props.handleClose}>
-          <DialogTitle>Edit</DialogTitle>
-          <DialogContent>
-            <form
-              className={classes.container}
-              noValidate
-              autoComplete="off"
-            >
-              <FormControl className={classes.formControl} fullWidth>
-                <InputLabel htmlFor="filled-title">Title</InputLabel>
-                <Input
-                  id="filled-title"
-                  className={classes.textField}
-                  value={this.state.title}
-                  onChange={this.changeHandler("title")}
-                  variant="filled"
-                  multiline={true}
-                  inputProps={{
-                    "aria-label": "Title of the post"
-                  }}
-                  rows={2}
-                  fullWidth
-                />
-              </FormControl>
-              <FormControl className={classes.formControl} fullWidth>
-                <InputLabel htmlFor="filled-body">Body</InputLabel>
-                <Input
-                  id="filled-body"
-                  className={classes.textField}
-                  value={this.state.body}
-                  onChange={this.changeHandler("body")}
-                  variant="filled"
-                  multiline={true}
-                  inputProps={{
-                    "aria-label": "Body of the post"
-                  }}
-                  rows={4}
-                  fullWidth
-                />
-              </FormControl>
-            </form>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.props.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              onClick={() => this.props.handleSave({ ...this.state })}
-              color="primary"
-              autoFocus
-            >
-              Save
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog maxWidth="md" open={this.props.open} onClose={this.props.handleClose}>
+        <DialogTitle>Edit</DialogTitle>
+        <DialogContent>
+          <form
+            className={classes.container}
+            noValidate
+            autoComplete="off"
+          >
+            <FormControl className={classes.formControl} fullWidth>
+              <InputLabel htmlFor="filled-title">Title</InputLabel>
+              <Input
+                id="filled-title"
+                className={classes.textField}
+                value={this.state.title}
+                onChange={this.changeHandler("title")}
+                variant="filled"
+                multiline={true}
+                inputProps={{
+                  "aria-label": "Title of the post"
+                }}
+                rows={2}
+                fullWidth
+              />
+            </FormControl>
+            <FormControl className={classes.formControl} fullWidth>
+              <InputLabel htmlFor="filled-body">Body</InputLabel>
+              <Input
+                id="filled-body"
+                className={classes.textField}
+                value={this.state.body}
+                onChange={this.changeHandler("body")}
+                variant="filled"
+                multiline={true}
+                inputProps={{
+                  "aria-label": "Body of the post"
+                }}
+                rows={4}
+                fullWidth
+              />
+            </FormControl>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.props.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button
+            onClick={() => this.props.handleSave({ ...this.state })}
+            color="primary"
+            autoFocus
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }
+
+PostEditorDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleSave: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(PostEditorDialog);

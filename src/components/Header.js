@@ -23,7 +23,7 @@ function Header() {
   return (
     <div className={classes.root}>
       <AppBar>
-        <Toolbar>
+        <Toolbar disableGutters={true}>
           <Container maxWidth="sm">
           <Typography variant="h6" className={classes.title} align="left">
             Posts

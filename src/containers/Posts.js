@@ -9,6 +9,7 @@ import Fade from '@material-ui/core/Fade';
 class Posts extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       posts: [],
       showSnackBar: false,
@@ -16,7 +17,8 @@ class Posts extends Component {
       showPostEditor: false,
       selectedPost: {}
     };
-    this.handlePostEdit = this.handlePostEdit.bind(this);
+
+    this.handlePostEditorOpen = this.handlePostEditorOpen.bind(this);
     this.handlePostDelete = this.handlePostDelete.bind(this);
     this.handlePostEditorClose = this.handlePostEditorClose.bind(this);
     this.handlePostUpdate = this.handlePostUpdate.bind(this);
@@ -44,7 +46,7 @@ class Posts extends Component {
     axios
       .patch(`${constants.POSTS_API}/posts/${id}`, { title, body })
       .then(res => {
-        if (res.status !== 200) return;
+        if (res.status !== 200) throw new Error();
 
         const postIndex = this.state.posts.findIndex(p => p.id === id);
         let refreshedPosts = this.state.posts;
@@ -57,7 +59,7 @@ class Posts extends Component {
       });
   }
 
-  handlePostEdit(postId) {
+  handlePostEditorOpen(postId) {
     const selectedPost = this.state.posts.find(p => p.id === postId);
     this.setState({
       showPostEditor: true,
@@ -69,7 +71,7 @@ class Posts extends Component {
     axios
       .delete(`${constants.POSTS_API}/posts/${postId}`)
       .then(res => {
-        if (res.status !== 200) return;
+        if (res.status !== 200) throw new Error();
 
         const postIndex = this.state.posts.findIndex(p => p.id === postId);
         let refreshedPosts = this.state.posts;
@@ -84,7 +86,7 @@ class Posts extends Component {
       });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.getPosts();
   }
 
@@ -96,21 +98,22 @@ class Posts extends Component {
   }
 
   render() {
-    const postList = this.state.posts.map((p, i) => (
+    const postList = this.state.posts.map(p => (
       <Post
-        key={i}
-        content={p}
-        handleEdit={this.handlePostEdit}
+        key={p.id}
+        id={p.id}
+        title={p.title}
+        body={p.body}
+        handleEdit={this.handlePostEditorOpen}
         handleDelete={this.handlePostDelete}
       />
     ));
     return (
-      <div>
+      <React.Fragment>
         <div className="posts">{postList}</div>
         <PostEditorDialog
           open={this.state.showPostEditor}
           selectedPost={this.state.selectedPost}
-          handlePostUpdate={this.handlePostUpdate}
           handleClose={this.handlePostEditorClose}
           handleSave={this.handlePostUpdate}
         />
@@ -120,7 +123,7 @@ class Posts extends Component {
           onClose={() => this.setState({ showSnackBar: false })}
           autoHideDuration={2000}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

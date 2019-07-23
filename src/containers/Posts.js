@@ -3,8 +3,8 @@ import axios from "axios";
 import Post from "../components/Post";
 import PostEditorDialog from "../components/PostEditorDialog";
 import { Snackbar } from "@material-ui/core";
-import constants from "../constants";
-import Fade from '@material-ui/core/Fade';
+import constants from "../helpers/constants";
+import debounce from 'lodash.debounce'
 
 class Posts extends Component {
   constructor(props) {
@@ -105,7 +105,7 @@ class Posts extends Component {
         title={p.title}
         body={p.body}
         handleEdit={this.handlePostEditorOpen}
-        handleDelete={this.handlePostDelete}
+        handleDelete={debounce(this.handlePostDelete, constants.WAIT_TIME)}
       />
     ));
     return (
@@ -115,7 +115,7 @@ class Posts extends Component {
           open={this.state.showPostEditor}
           selectedPost={this.state.selectedPost}
           handleClose={this.handlePostEditorClose}
-          handleSave={this.handlePostUpdate}
+          handleSave={debounce(this.handlePostUpdate, constants.WAIT_TIME)}
         />
         <Snackbar
           message={this.state.snackbarMessage}

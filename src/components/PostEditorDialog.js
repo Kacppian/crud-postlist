@@ -47,7 +47,7 @@ class PostEditorDialog extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Dialog maxWidth="md" open={this.props.open} onClose={this.props.handleClose}>
+      <Dialog maxWidth="sm" open={this.props.open} onClose={this.props.handleClose}>
         <DialogTitle>Edit</DialogTitle>
         <DialogContent>
           <form
@@ -64,11 +64,10 @@ class PostEditorDialog extends Component {
                 onChange={this.changeHandler("title")}
                 variant="filled"
                 multiline={true}
-                inputProps={{
-                  "aria-label": "Title of the post"
-                }}
+                aria-describedby="Input field to edit the title of the post"
                 rows={2}
                 fullWidth
+                inputProps={ {maxLength: 90} }
               />
             </FormControl>
             <FormControl className={classes.formControl} fullWidth>
@@ -80,11 +79,10 @@ class PostEditorDialog extends Component {
                 onChange={this.changeHandler("body")}
                 variant="filled"
                 multiline={true}
-                inputProps={{
-                  "aria-label": "Body of the post"
-                }}
+                aria-describedby="Input field to edit the body of the post"
                 rows={4}
                 fullWidth
+                inputProps={ {maxLength: 200} }
               />
             </FormControl>
           </form>

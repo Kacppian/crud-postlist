@@ -17,13 +17,11 @@ function App() {
 
   return (
     <div className={`${classes.root} App`} >
-      <React.Fragment>
         <CssBaseline />
         <Header />
         <Container component="main" maxWidth="sm">
           <Posts />
         </Container>
-      </React.Fragment>
     </div>
   );
 }
